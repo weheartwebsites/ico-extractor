@@ -12,7 +12,7 @@ var
   Args, TempArgs: PPWideChar;
   ArgCount: Integer;
 
-  SrcFile, DestIcoFile: WideString;
+  SrcFile, DestPicFile: WideString;
 begin
   // We're expecting two parameters, first is source file icon whose icon is seeked and second is destination file to save icon to
   Args := CommandLineToArgvW(GetCommandLineW, ArgCount);
@@ -26,7 +26,7 @@ begin
     begin
       SrcFile := TempArgs^;
       Inc(TempArgs);
-      DestIcoFIle := TempArgs^;
+      DestPicFile := TempArgs^;
     end;
 
     LocalFree(HLOCAL(Args));
@@ -35,9 +35,9 @@ begin
   if SrcFile = '' then
     Exit;
 
-  if DestIcoFile = '' then
-    DestIcoFile := WideChangeFileExt(SrcFile, '.ico');
+  if DestPicFile = '' then
+    DestPicFile := WideChangeFileExt(SrcFile, '.png');
 
-  ExtractLargestIconFrom(SrcFile, DestIcoFile);
+  ExtractLargestIconFrom(SrcFile, DestPicFile);
 end.
 

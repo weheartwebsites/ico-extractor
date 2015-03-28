@@ -1,0 +1,177 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{7ea78548-151c-43ed-8499-4eda878c454e}</ProjectGuid>
+        <MainSource>IcoExtractor.dpr</MainSource>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
+        <DCC_DependencyCheckOutputName>IcoExtractor.exe</DCC_DependencyCheckOutputName>
+        <FrameworkType>None</FrameworkType>
+        <ProjectVersion>14.4</ProjectVersion>
+        <Base>True</Base>
+        <Config Condition="'$(Config)'==''">Debug</Config>
+        <Platform Condition="'$(Platform)'==''">Win32</Platform>
+        <TargetedPlatforms>1</TargetedPlatforms>
+        <AppType>Console</AppType>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='OSX32' and '$(Base)'=='true') or '$(Base_OSX32)'!=''">
+        <Base_OSX32>true</Base_OSX32>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Base)'=='true') or '$(Base_Win32)'!=''">
+        <Base_Win32>true</Base_Win32>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Release' or '$(Cfg_1)'!=''">
+        <Cfg_1>true</Cfg_1>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Debug' or '$(Cfg_2)'!=''">
+        <Cfg_2>true</Cfg_2>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='OSX32' and '$(Cfg_2)'=='true') or '$(Cfg_2_OSX32)'!=''">
+        <Cfg_2_OSX32>true</Cfg_2_OSX32>
+        <CfgParent>Cfg_2</CfgParent>
+        <Cfg_2>true</Cfg_2>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_2)'=='true') or '$(Cfg_2_Win32)'!=''">
+        <Cfg_2_Win32>true</Cfg_2_Win32>
+        <CfgParent>Cfg_2</CfgParent>
+        <Cfg_2>true</Cfg_2>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base)'!=''">
+        <Manifest_File>None</Manifest_File>
+        <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Winapi;Vcl;Vcl.Imaging;$(DCC_Namespace)</DCC_Namespace>
+        <VerInfo_Locale>2074</VerInfo_Locale>
+        <VerInfo_Keys>CompanyName=Wings Software;FileDescription=;FileVersion=1.0.0.0;InternalName=Gross;LegalCopyright=Copyright © Wings Soft. 2005;LegalTrademarks=;OriginalFilename=Gross.exe;ProductName=Gross;ProductVersion=1.0;Comments=</VerInfo_Keys>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base_OSX32)'!=''">
+        <Icns_MainIcns>$(BDS)\bin\delphi_PROJECTICNS.icns</Icns_MainIcns>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base_Win32)'!=''">
+        <DCC_Namespace>System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
+        <Debugger_RunParams>*.pdf pdf</Debugger_RunParams>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_1)'!=''">
+        <Version>7.0</Version>
+        <DCC_DebugInformation>False</DCC_DebugInformation>
+        <DCC_LocalDebugSymbols>False</DCC_LocalDebugSymbols>
+        <DCC_IntegerOverflowCheck>True</DCC_IntegerOverflowCheck>
+        <DCC_RangeChecking>True</DCC_RangeChecking>
+        <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
+        <DCC_DcuOutput>..\dcu</DCC_DcuOutput>
+        <DCC_ObjOutput>..\dcu</DCC_ObjOutput>
+        <DCC_HppOutput>..\dcu</DCC_HppOutput>
+        <DCC_UnitSearchPath>$(DELPHI)\Lib\Debug;$(ADD_LIB)\Lischke\VirtualTree\VirtualTreeview\Lib\D7\debug;$(ADD_LIB)\razno\fastcode\fastmm478\lib\d7\debug;$(ADD_LIB)\Indy\Indy10\indy10\Source\LibD7\Debug;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <DCC_ResourcePath>$(DELPHI)\Lib\Debug;$(ADD_LIB)\Lischke\VirtualTree\VirtualTreeview\Lib\D7\debug;$(ADD_LIB)\razno\fastcode\fastmm478\lib\d7\debug;$(ADD_LIB)\Indy\Indy10\indy10\Source\LibD7\Debug;D:\TntWare\Delphi Unicode Controls\Lib\D7\debug;I:\PROGRA~1\Delphi\Jedi\JCL\lib\d7\debug;J:\Current\External\PngComponents\Source\;$(DCC_ResourcePath)</DCC_ResourcePath>
+        <DCC_ObjPath>$(DELPHI)\Lib\Debug;$(ADD_LIB)\Lischke\VirtualTree\VirtualTreeview\Lib\D7\debug;$(ADD_LIB)\razno\fastcode\fastmm478\lib\d7\debug;$(ADD_LIB)\Indy\Indy10\indy10\Source\LibD7\Debug;D:\TntWare\Delphi Unicode Controls\Lib\D7\debug;I:\PROGRA~1\Delphi\Jedi\JCL\lib\d7\debug;J:\Current\External\PngComponents\Source\;$(DCC_ObjPath)</DCC_ObjPath>
+        <DCC_IncludePath>$(DELPHI)\Lib\Debug;$(ADD_LIB)\Lischke\VirtualTree\VirtualTreeview\Lib\D7\debug;$(ADD_LIB)\razno\fastcode\fastmm478\lib\d7\debug;$(ADD_LIB)\Indy\Indy10\indy10\Source\LibD7\Debug;D:\TntWare\Delphi Unicode Controls\Lib\D7\debug;I:\PROGRA~1\Delphi\Jedi\JCL\lib\d7\debug;J:\Current\External\PngComponents\Source\;$(DCC_IncludePath)</DCC_IncludePath>
+        <DCC_Define>PNG_SUPPORT;RELEASE;$(DCC_Define)</DCC_Define>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2)'!=''">
+        <Version>7.0</Version>
+        <DCC_IntegerOverflowCheck>True</DCC_IntegerOverflowCheck>
+        <DCC_RangeChecking>True</DCC_RangeChecking>
+        <DCC_DcuOutput>..\dcu</DCC_DcuOutput>
+        <DCC_ObjOutput>..\dcu</DCC_ObjOutput>
+        <DCC_HppOutput>..\dcu</DCC_HppOutput>
+        <DCC_ResourcePath>$(DELPHI)\Lib\Debug;$(ADD_LIB)\Lischke\VirtualTree\VirtualTreeview\Lib\D7\debug;$(ADD_LIB)\razno\fastcode\fastmm478\lib\d7\debug;$(ADD_LIB)\Indy\Indy10\indy10\Source\LibD7\Debug;D:\TntWare\Delphi Unicode Controls\Lib\D7\debug;I:\PROGRA~1\Delphi\Jedi\JCL\lib\d7\debug;J:\Current\External\PngComponents\Source\;$(DCC_ResourcePath)</DCC_ResourcePath>
+        <DCC_ObjPath>$(DELPHI)\Lib\Debug;$(ADD_LIB)\Lischke\VirtualTree\VirtualTreeview\Lib\D7\debug;$(ADD_LIB)\razno\fastcode\fastmm478\lib\d7\debug;$(ADD_LIB)\Indy\Indy10\indy10\Source\LibD7\Debug;D:\TntWare\Delphi Unicode Controls\Lib\D7\debug;I:\PROGRA~1\Delphi\Jedi\JCL\lib\d7\debug;J:\Current\External\PngComponents\Source\;$(DCC_ObjPath)</DCC_ObjPath>
+        <DCC_IncludePath>$(DELPHI)\Lib\Debug;$(ADD_LIB)\Lischke\VirtualTree\VirtualTreeview\Lib\D7\debug;$(ADD_LIB)\razno\fastcode\fastmm478\lib\d7\debug;$(ADD_LIB)\Indy\Indy10\indy10\Source\LibD7\Debug;D:\TntWare\Delphi Unicode Controls\Lib\D7\debug;I:\PROGRA~1\Delphi\Jedi\JCL\lib\d7\debug;J:\Current\External\PngComponents\Source\;$(DCC_IncludePath)</DCC_IncludePath>
+        <DCC_Define>PNG_SUPPORT;DEBUG;$(DCC_Define)</DCC_Define>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2_OSX32)'!=''">
+        <Icns_MainIcns>$(BDS)\bin\delphi_PROJECTICNS.icns</Icns_MainIcns>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
+        <Manifest_File>None</Manifest_File>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+    </PropertyGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Delphi.Personality.12</Borland.Personality>
+        <Borland.ProjectType>VCLApplication</Borland.ProjectType>
+        <BorlandProject>
+            <Delphi.Personality>
+                <Parameters>
+                    <Parameters Name="RunParams">*.pdf pdf</Parameters>
+                    <Parameters Name="UseLauncher">False</Parameters>
+                    <Parameters Name="LoadAllSymbols">True</Parameters>
+                    <Parameters Name="LoadUnspecifiedSymbols">False</Parameters>
+                </Parameters>
+                <VersionInfo>
+                    <VersionInfo Name="IncludeVerInfo">False</VersionInfo>
+                    <VersionInfo Name="AutoIncBuild">False</VersionInfo>
+                    <VersionInfo Name="MajorVer">1</VersionInfo>
+                    <VersionInfo Name="MinorVer">0</VersionInfo>
+                    <VersionInfo Name="Release">0</VersionInfo>
+                    <VersionInfo Name="Build">0</VersionInfo>
+                    <VersionInfo Name="Debug">False</VersionInfo>
+                    <VersionInfo Name="PreRelease">False</VersionInfo>
+                    <VersionInfo Name="Special">False</VersionInfo>
+                    <VersionInfo Name="Private">False</VersionInfo>
+                    <VersionInfo Name="DLL">False</VersionInfo>
+                    <VersionInfo Name="Locale">2074</VersionInfo>
+                    <VersionInfo Name="CodePage">1250</VersionInfo>
+                </VersionInfo>
+                <VersionInfoKeys>
+                    <VersionInfoKeys Name="CompanyName">Wings Software</VersionInfoKeys>
+                    <VersionInfoKeys Name="FileDescription"/>
+                    <VersionInfoKeys Name="FileVersion">1.0.0.0</VersionInfoKeys>
+                    <VersionInfoKeys Name="InternalName">Gross</VersionInfoKeys>
+                    <VersionInfoKeys Name="LegalCopyright">Copyright © Wings Soft. 2005</VersionInfoKeys>
+                    <VersionInfoKeys Name="LegalTrademarks"/>
+                    <VersionInfoKeys Name="OriginalFilename">Gross.exe</VersionInfoKeys>
+                    <VersionInfoKeys Name="ProductName">Gross</VersionInfoKeys>
+                    <VersionInfoKeys Name="ProductVersion">1.0</VersionInfoKeys>
+                    <VersionInfoKeys Name="Comments"/>
+                </VersionInfoKeys>
+                <Source>
+                    <Source Name="MainSource">IcoExtractor.dpr</Source>
+                </Source>
+                <Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k170.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp170.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="c:\Documents and Settings\All Users.WINDOWS\Documents\RAD Studio\10.0\Bpl\JvBandsDesign170.bpl">JVCL Band Objects</Excluded_Packages>
+                    <Excluded_Packages Name="c:\Documents and Settings\All Users.WINDOWS\Documents\RAD Studio\10.0\Bpl\JvPluginSystemDesign170.bpl">JVCL Plugin Components</Excluded_Packages>
+                </Excluded_Packages>
+            </Delphi.Personality>
+            <Platforms>
+                <Platform value="OSX32">False</Platform>
+                <Platform value="Win32">True</Platform>
+            </Platforms>
+        </BorlandProject>
+        <ProjectFileVersion>12</ProjectFileVersion>
+    </ProjectExtensions>
+    <ItemGroup>
+        <DelphiCompile Include="$(MainSource)">
+            <MainSource>MainSource</MainSource>
+        </DelphiCompile>
+        <DCCReference Include="ExtractHelper.pas"/>
+        <BuildConfiguration Include="Debug">
+            <Key>Cfg_2</Key>
+            <CfgParent>Base</CfgParent>
+        </BuildConfiguration>
+        <BuildConfiguration Include="Base">
+            <Key>Base</Key>
+        </BuildConfiguration>
+        <BuildConfiguration Include="Release">
+            <Key>Cfg_1</Key>
+            <CfgParent>Base</CfgParent>
+        </BuildConfiguration>
+    </ItemGroup>
+    <ItemGroup/>
+    <Import Project="$(BDS)\Bin\CodeGear.Delphi.Targets"/>
+    <Import Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj" Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj')"/>
+</Project>

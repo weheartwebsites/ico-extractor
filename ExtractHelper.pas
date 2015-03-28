@@ -2,7 +2,7 @@
 //
 //  Written by:  Igor Savkic (igors233@gmail.com)
 //
-//  Last change: 08/03/2015
+//  Last change: 25/03/2015
 //
 //  Desc:        General purpose icon extraction unit, handles executables
 //               and file extensions: C:\MyApp.exe; *.txt
@@ -55,7 +55,7 @@ type
   {$IF CompilerVersion < 20}
   type
     // Delphi prior to 2009 doesn't have accompanying png lib, so some external must be used (for example pngdelphi.sourceforge.net)
-    // Note that D7 has bug in Icon handling and it will trim colors info 
+    // Note that D7 has bug in Icon handling and it will trim colors info
     TPngImage = TPngObject;
   {$IFEND}
 {$ENDIF}
@@ -161,16 +161,40 @@ begin
   end;
 end;
 
+function SaveAsPngW(AIcon: TIcon; const ADestFile: WideString): Integer;
+var
+  png: TPngImage;
+  ms: TMemoryStream;
+  bmp: TBitmap;
+begin
+  png := TPngImage.Create;
+  bmp := TBitmap.Create;
+  ms := TMemoryStream.Create;
+  try
+    bmp.Assign(AIcon);
+    png.Assign(bmp);
+    png.TransparentColor := bmp.Canvas.Pixels[0, 0]; // Use top left pixel as transparent color
+    png.SaveToStream(ms);
+    Result := SaveToFileW(ms, ChangeFileExt(ADestFile, '.png'));
+  finally
+    ms.Free;
+    bmp.Free;
+    png.Free;
+  end;
+end;
+
 function SaveResIcoToFileW(AIcoData: TCustomMemoryStream; const ADestFile: WideString): Integer; overload;
 var
   ms: TMemoryStream;
   IcoDir: TCursorOrIcon;
   IcoHdr: TIconDirEntry;
   bmpHdr: PBitmapInfoHeader;
+  ico: TIcon;
 begin
   ms := TMemoryStream.Create;
+  ico := TIcon.Create;
   try
-    // Icon on disk has same format as on disk, first goes GrpHeader and then icons (in our case only one icon is stored)
+    // Icon on disk has same format as in resource, first goes GrpHeader and then icons (in our case only one icon is stored)
     IcoDir.Reserved := 0;
     IcoDir.wType := 1; // Icon
     IcoDir.Count := 1;
@@ -194,9 +218,12 @@ begin
     ms.WriteBuffer(IcoDir, SizeOf(TCursorOrIcon));
     ms.WriteBuffer(IcoHdr, SizeOf(TIconRec));
     ms.CopyFrom(AIcoData, 0);
-    Result := SaveToFileW(ms, ADestFile);
+    ms.Position := 0;
+    ico.LoadFromStream(ms);
+    Result := SaveAsPngW(ico, ADestFile);
   finally
     ms.Free;
+    ico.Free;
   end;
 end;
 
@@ -205,8 +232,6 @@ var
   hResFile: HMODULE;
   ResHelper: TResHelper;
   rs: TResourceStream;
-  ico: TIcon;
-  SaveAsIs: Boolean;
 
   function EnumResProc(hModule: HINST; AResType, AResName: PChar; AParam: DWORD): BOOL; stdcall;
   var
@@ -253,54 +278,6 @@ var
     Result := CompareMem(rs.Memory, @PNG_HEADER[0], SizeOf(PNG_HEADER));
   end;
 
-  function GetAsIcon(const AStream: TResourceStream): TIcon;
-  {$IFDEF PNG_SUPPORT}
-  var
-    png: TPngImage;
-
-    procedure ConvertPngToIco(APng: TPngImage; AIco: TIcon);
-    var
-      Bmp: TBitmap;
-      ImageList: TCustomImageList;
-    begin
-      Bmp  := TBitmap.Create;
-      try
-        Bmp.Assign(APng);
-        ImageList := TCustomImageList.CreateSize(Bmp.Width, Bmp.Height);
-        try
-          ImageList.AddMasked(Bmp, Bmp.TransparentColor);
-          ImageList.GetIcon(0, AIco);
-        finally
-          ImageList.Free;
-        end;
-      finally
-        Bmp.Free;
-      end;
-    end;
-    {$ENDIF}
-
-  begin
-    Result := TIcon.Create;
-    try
-      // Try loading icon from a stream, it could be .ico format or png (for 256x256 icons)
-      if IsPngFile(AStream.Memory) then
-      begin
-      {$IFDEF PNG_SUPPORT}
-        png := TPngImage.Create;
-        try
-          png.LoadFromStream(AStream);
-          ConvertPngToIco(png, Result);
-        finally
-          png.Free;
-        end;
-      {$ENDIF}
-      end
-      else
-        Result.LoadFromStream(AStream);
-    except
-      Result.Handle := 0;
-    end;
-  end;
 begin
   Result := S_FALSE;
   hResFile := LoadLibraryExW(PWideChar(ASrcFile), 0, LOAD_LIBRARY_AS_DATAFILE);
@@ -318,32 +295,12 @@ begin
       ResHelper.ResName := FindBestIconId(rs.Memory);
       rs.Free;
       rs := TResourceStream.Create(hResFile, ResHelper.ResName, RT_ICON);
-      SaveAsIs := (ExtractFileExt(ADestFile) = '') or (not IsPngFile(rs.Memory) and (ExtractFileExt(ADestFile) = '.ico'));
-      ADestFile := WideChangeFileExt(ADestFile, '.ico');
+      ADestFile := WideChangeFileExt(ADestFile, '.png');
 
-      if not SaveAsIs then
-      begin
-        ico := GetAsIcon(rs);
-        try
-          if ico.Handle <> 0 then
-            Result := SaveToFileW(ico, ADestFile)
-          else
-            SaveAsIs := True; // Conversion from png to ico failed, save file as is (as png image)
-        finally
-          ico.Free;
-        end;
-      end;
-
-      if SaveAsIs then
-      begin
-        if IsPngFile(rs) then
-        begin
-          ADestFile := WideChangeFileExt(ADestFile, '.png');
-          Result := SaveToFileW(rs, ADestFile);
-        end
-        else
-          Result := SaveResIcoToFileW(rs, ADestFile);
-      end;
+      if IsPngFile(rs) then
+        Result := SaveToFileW(rs, ADestFile)
+      else
+        Result := SaveResIcoToFileW(rs, ADestFile);
 
       rs.Free;
     except
@@ -460,13 +417,12 @@ begin
     ResultIco.Handle := ImageList_GetIcon(hImgList, sfi.iIcon, ILD_TRANSPARENT);
 
     if ResultIco.Handle <> 0 then
-      SaveToFileW(ResultIco, WideChangeFileExt(AExtractedIconPath, '.ico'));
+      SaveAsPngW(ResultIco, AExtractedIconPath);
   finally
     ResultIco.Free;
   end;
 
   CoUninitialize;
-//  ReadLn;
 end;
 
 end.
